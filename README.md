@@ -29,30 +29,12 @@ This repo takes you from **zero to confident Linux user**, step-by-step:
 
 ### 🟢 Beginner
 **Goal:** Understand and control the Linux terminal.
-- Lab 1: Basic Commands and File Navigation  
-- Lab 2: File Operations and Redirection  
-- Lab 3: User and Group Management  
+- Lab 1: Basic Commands and File Permissions 
+- Lab 2: User and Group Management   
+- Lab 3: Process and Service Management
+- Lab 4: Network Commands and Configuration
+- Lab 5: Firewall, ufw, and Security Audit     
 
-**Tools:** `ls`, `cd`, `mkdir`, `rm`, `cat`, `chmod`, `chown`, `sudo`, `apt`, `passwd`
-
----
-
-### 🟡 Intermediate
-**Goal:** System management, processes, and networking.
-- Lab 4: Process and Service Management  
-- Lab 5: Package Management and System Updates  
-- Lab 6: Network Commands and Configuration  
-
-**Tools:** `ps`, `top`, `systemctl`, `netstat`, `ss`, `ping`, `ufw`, `ifconfig`, `journalctl`
-
----
-
-### 🔴 Advanced
-**Goal:** Security and automation.
-- Lab 7: File Permissions and Hardening  
-- Lab 8: Automating with Bash Scripts  
-- Lab 9: Firewall, Fail2Ban, and Security Audit  
-
-**Tools:** `bash`, `awk`, `sed`, `grep`, `ufw`, `fail2ban`, `lynis`
+**Tools:** `ls`, `cd`, `mkdir`, `rm`, `cat`, `chmod`, `chown`, `sudo`, `apt`, `passwd`, `ps`, `top`, `systemctl`, `netstat`, `ss`, `ping`, `ufw`, `ifconfig`, `journalctl`
 
 ---
