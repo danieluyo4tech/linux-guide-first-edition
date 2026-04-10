@@ -31,6 +31,7 @@ ip a
 ```
 **Explanation:**
 This command displays all network interfaces available on your system along with their full configuration details.
+
 It shows:
 - Interface names (e.g. wlan0 for WiFi, eth0 for Ethernet, lo for loopback)
 - IP addresses (IPv4 & IPv6) assigned to each interface
@@ -52,7 +53,7 @@ hostname -I
 ```
 **Meaning:** 
 This command prints only the IP address(es) assigned to your system without showing extra technical details.
-Why it is important:
+### Why it is important:
 Useful when you quickly need your IP address for:
 - Connecting to another device
 - Setting up servers
@@ -71,6 +72,7 @@ ping google.com
 ```
 **Explanation:** 
 This command sends ICMP echo requests (small packets) to a remote server (google.com) to check if your system can reach it.
+
 It measures:
 - Connectivity (is the server reachable?)
 - Latency (how fast the response comes back)
@@ -89,6 +91,7 @@ htop
 ```
 **Explanation:**
 This command shows the current status of all network interfaces managed by NetworkManager.
+
 It displays:
 - Device name (wlan0, eth0)
 - Device type (WiFi, Ethernet)
@@ -109,10 +112,11 @@ ip route
 ```
 **Explanation:**
 Displays the routing table, which tells your system how to send data to other networks.
+
 Key parts:
 - Default gateway → where internet traffic is sent
 - Network routes → paths to local networks
-Why it is important:
+### Why it is important:
 - Without proper routing, your system cannot access the internet, even if it has an IP address.
 
 **Expected Output:**
@@ -134,7 +138,7 @@ Breakdown:
 - u → UDP connections
 - l → listening services
 - n → numeric format
-Why it is important:
+### Why it is important:
 Helps you:
 - Identify running services (e.g. SSH, web server)
 - Detect unwanted or suspicious open ports
@@ -154,7 +158,7 @@ cat /etc/resolv.conf
 ```
 **Explanation:**
 Displays the DNS servers your system uses to resolve domain names.
-Why it is important:
+### Why it is important:
 If DNS is misconfigured:
 - Websites won’t load by name
 - Internet may appear “broken”
@@ -173,7 +177,7 @@ nslookup google.com
 ```
 **Explanation:**
 Queries a DNS server to translate a domain name into an IP address.
-Why it is important:
+### Why it is important:
 Helps confirm:
 - DNS server is working
 - Domain names are resolving correctly
@@ -193,9 +197,9 @@ sudo systemctl restart NetworkManager
 ```
 **Explanation:**
 Restarts the NetworkManager service, which controls network connections.
-Why it is important:
-Used to fix issues like:
+### Why it is important:
 
+Used to fix issues like:
 - Network not connecting
 - IP not assigned
 - WiFi not responding
@@ -214,6 +218,7 @@ sudo netdiscover
 
 **Explanation:**
 Scans your local network using ARP requests to discover all connected devices.
+
 What it reveals:
 - IP addresses of devices
 - MAC addresses
@@ -238,7 +243,8 @@ It allows you to:
 - See all incoming and outgoing traffic
 - Analyze protocols like HTTP, DNS, TCP
 - Monitor network activity at a deep level
-What to do:
+
+### What to do:
 - Select your active interface (e.g. wlan0)
 - Click Start Capturing
 - Open a browser and visit any website
