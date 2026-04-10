@@ -1,277 +1,275 @@
-# 🧪 Lab 3: System Monitoring & Process Management
+# 🧪 Lab 4 : Linux Networking
 
-**Goal:** Learn to monitor system resources, processes, CPU/memory usage, and manage running services in Linux.  
-**Tools:** Linux Terminal (Ubuntu, Kali, or any Linux distribution)
+**Goal:** Learn how to check network settings, test connectivity, and understand how Linux communicates over a network.  
+**Tools:** Linux Terminal (Ubuntu, Kali, Parrot OS, etc.)
 
 ---
 
 ## 🧠 Learning Objectives
+
 By the end of this lab, you should be able to:
-- Monitor running processes and system performance
-- Inspect CPU, memory, and disk usage
-- Identify resource-hogging processes
-- Manage services with `systemctl`
-- Use advanced commands like `top`, `htop`, `vmstat`, `iostat`, `uptime`, `dstat`
-- Automate monitoring tasks with command combinations
+- Check your IP address and network configuration  
+- Test internet connectivity using ping  
+- View active network interfaces  
+- Identify network routes and gateways  
+- Troubleshoot basic network issues  
+- Use essential Linux networking commands confidently  
 
 ---
 
 ## ⚙️ Prerequisites
-- Completion of Lab 1 & Lab 2
-- Terminal access (`Ctrl + Alt + T`)
-- Understanding of files, permissions, and basic commands
-
+- A Linux system (Kali, Ubuntu, etc.)  
+- Terminal access (`Ctrl + Alt + T`)  
+- Active internet connection (WiFi or Ethernet)  
+- Basic knowledge of Linux commands  
 ---
 ## 🧩 Step-by-Step Practical Guide
 
-### Step 1 — Check System Uptime and Load
+### Step 1 — Check Your IP Address
 ```bash
-uptime
+ip a
 ```
 **Explanation:**
-Shows how long the system has been running, number of users logged in, and system load averages over 1, 5, and 15 minutes.
+This command displays all network interfaces available on your system along with their full configuration details.
+It shows:
+- Interface names (e.g. wlan0 for WiFi, eth0 for Ethernet, lo for loopback)
+- IP addresses (IPv4 & IPv6) assigned to each interface
+- MAC address (physical hardware address of your device)
+- Interface status (UP = active, DOWN = inactive)
 
 **Example Output:**
 ```bash
-10:45:32 up 3 days, 2 users, load average: 0.15, 0.10, 0.05
+2: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP>
+    inet 192.168.1.5/24 brd 192.168.1.255 scope global wlan0
+    link/ether aa:bb:cc:dd:ee:ff
 
 ```
 ---
 
-### Step 2 — Monitor Processes with ps
+### Step 2 — Quickly View Your IP Address
 ```bash
-ps aux
+hostname -I
 ```
-**Meaning:** Lists all running processes, showing:
-- USER → process owner
-- PID → process ID
-- %CPU → CPU usage
-- %MEM → memory usage
-- COMMAND → command that started the process
-- 
+**Meaning:** 
+This command prints only the IP address(es) assigned to your system without showing extra technical details.
+Why it is important:
+Useful when you quickly need your IP address for:
+- Connecting to another device
+- Setting up servers
+- Sharing your IP with others
+  
 **Example Output:**
 ```bash
-USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-daniel    1234  0.0  0.1  23456  1234 pts/0    Ss   09:00   0:00 bash
-root      5678  0.1  1.2 123456 12345 ?       Ss   08:59   0:05 sshd
+192.168.1.5
 ```
 
 ---
 
-### Step 3 — Real-Time Monitoring with top
+### Step 3 — Test Internet Connectivity (Domain)
 ```bash
-top
+ping google.com
 ```
-**Explanation:**Displays real-time CPU, memory, and process statistics.
-- Press q to quit.
-
+**Explanation:** 
+This command sends ICMP echo requests (small packets) to a remote server (google.com) to check if your system can reach it.
+It measures:
+- Connectivity (is the server reachable?)
+- Latency (how fast the response comes back)
+- Packet loss (if any data is lost)
 **Example Output:**
 ```bash
-top - 10:46:01 up 3 days, 2 users, load average: 0.15, 0.10, 0.05
-Tasks: 123 total,   1 running, 122 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  5.0 us,  1.0 sy,  0.0 ni, 94.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
-KiB Mem : 2048000 total, 1024000 free,  512000 used,  512000 buff/cache
-KiB Swap: 1024000 total, 1024000 free,       0 used.  1500000 avail Mem
+64 bytes from google.com (142.250.190.78): icmp_seq=1 ttl=117 time=45.2 ms
 ```
 
 ---
 
-### Step 4 — Interactive Process Monitor with htop
+### Step 4 — Check Network Device Status
 ```bash
-sudo apt install htop -y
+nmcli device status
 htop
 ```
 **Explanation:**
-More visual, interactive process manager than top.
-- Use arrow keys to scroll, F9 to kill a process.
+This command shows the current status of all network interfaces managed by NetworkManager.
+It displays:
+- Device name (wlan0, eth0)
+- Device type (WiFi, Ethernet)
+- Connection state (connected, disconnected)
 
 **Expected Output:**
 ```bash
-PID USER   PRI  NI  VIRT   RES  SHR S CPU% MEM%  TIME+  Command
-1234 daniel 20   0 23456  1234  456 S  0.0  0.1   0:00  bash
-5678 root   20   0 123456 12345 567 S  0.1  1.2   0:05  sshd
+DEVICE   TYPE      STATE
+wlan0    wifi      connected
+eth0     ethernet  disconnected
 ```
 
 ---
 
-### Step 5 — Monitor CPU and Memory Usage with vmstat
+### Step 5 — View Network Routing Information
 ```bash
-vmstat 2 5
+ip route
 ```
 **Explanation:**
-Shows virtual memory, CPU, and process statistics every 2 seconds, 5 times.
+Displays the routing table, which tells your system how to send data to other networks.
+Key parts:
+- Default gateway → where internet traffic is sent
+- Network routes → paths to local networks
+Why it is important:
+- Without proper routing, your system cannot access the internet, even if it has an IP address.
 
 **Expected Output:**
 ```bash
-procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
- r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
- 1  0      0 1024000  5120 204800   0    0     2     1  123  456  5  1 94  0  0
-
+default via 192.168.1.1 dev wlan0
+192.168.1.0/24 dev wlan0 proto kernel scope link
 ```
 
 ---
 
-### Step 6 — Monitor Disk I/O with iostat
+### Step 6 — View Open Ports and Services
 ```bash
-sudo apt install sysstat -y
-iostat -xz 2 3
+ss -tuln
 ```
 **Explanation:** 
-Displays extended disk I/O stats per device.
-
+Shows all active network ports and services currently running on your system.
+Breakdown:
+- t → TCP connections
+- u → UDP connections
+- l → listening services
+- n → numeric format
+Why it is important:
+Helps you:
+- Identify running services (e.g. SSH, web server)
+- Detect unwanted or suspicious open ports
+- Understand what your system is exposing to the network
 **Expected Output:**
 ```bash
-Device:            rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
-sda                 0.00     1.00    0.50    2.00    12.00    24.00    36.00     0.01    5.00    2.00    6.00   0.50  0.10
+Netid  State   Local Address:Port
+tcp    LISTEN  0.0.0.0:22
+tcp    LISTEN  0.0.0.0:80
 ```
 
 ---
 
-### Step 7 — Monitor Network Usage
+### Step 7 — Check DNS Configuration
 ```bash
-sudo netstat -tulpn
+cat /etc/resolv.conf
 ```
 **Explanation:**
-Lists all active network connections, listening ports, and processes.
+Displays the DNS servers your system uses to resolve domain names.
+Why it is important:
+If DNS is misconfigured:
+- Websites won’t load by name
+- Internet may appear “broken”
 
 **Expected Output:**
 ```bash
-Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      5678/sshd
-tcp6       0      0 :::80                   :::*                    LISTEN      4321/apache2
+nameserver 8.8.8.8
+nameserver 1.1.1.1
 ```
 
 ---
 
-### Step 8 — Interactive Network Monitor with iftop
+### Step 8 — Test DNS Resolution
 ```bash
-sudo apt install iftop -y
-sudo iftop
+nslookup google.com
 ```
 **Explanation:**
-Shows bandwidth usage per host in real-time  
-
+Queries a DNS server to translate a domain name into an IP address.
+Why it is important:
+Helps confirm:
+- DNS server is working
+- Domain names are resolving correctly
 **Expected Output:**
 ```bash
-Linux Essentials Lab 1
-Practice navigating directories and files
+Server: 8.8.8.8
+Address: 8.8.8.8#53
+Name: google.com
+Address: 142.250.190.78
 ```
 
 ---
 
-### Step 9 — Monitor Logs and Events
+### Step 9 — Restart Network Service
 ```bash
-journalctl -xe
+sudo systemctl restart NetworkManager
 ```
 **Explanation:**
-View system logs
+Restarts the NetworkManager service, which controls network connections.
+Why it is important:
+Used to fix issues like:
+
+- Network not connecting
+- IP not assigned
+- WiFi not responding
 
 **Expected Output:**
 ```bash
-Oct 29 10:50:01 ubuntu systemd[1]: Starting Daily apt download activities...
-Oct 29 10:50:01 ubuntu systemd[1]: Started Daily apt download activities.
+(No output if successful)
 ```
 
 ---
 
-### Step 10 — Filter logs for SSH service:
+### Step 10 — Discover Devices on Your Network
 ```bash
-journalctl -u ssh -n 10
+sudo netdiscover
 ```
 
 **Explanation:**
-Filter logs for SSH service: 
-
+Scans your local network using ARP requests to discover all connected devices.
+What it reveals:
+- IP addresses of devices
+- MAC addresses
+- Device vendors
 **Expected Output:**
 ```bash
-Oct 29 10:52:01 ubuntu sshd[5678]: Accepted password for daniel from 192.168.1.5 port 55874 ssh2
+IP              MAC Address         Vendor
+192.168.1.1     aa:bb:cc:dd:ee      TP-Link
+192.168.1.5     11:22:33:44:55      Android Device
+192.168.1.8     66:77:88:99:00      Laptop
 ```
 ---
 
-### Step 11 — Manage Services with systemctl
+### Step 11 — sudo wireshark
 ```bash
 systemctl status ssh
 ```
 **Explanation:**
-Check if SSH is running and enabled at boot.
+Wireshark is a network protocol analyzer used to capture and inspect packets traveling through your network in real time.
 
+It allows you to:
+- See all incoming and outgoing traffic
+- Analyze protocols like HTTP, DNS, TCP
+- Monitor network activity at a deep level
+What to do:
+- Select your active interface (e.g. wlan0)
+- Click Start Capturing
+- Open a browser and visit any website
+- What you will observe:
+- Live packets flowing across the network
+Protocols like:
+- DNS (domain lookup)
+- TCP (connection)
+- HTTP/HTTPS (web traffic)
 **Example Output:**
 ```bash
-ssh.service - OpenBSD Secure Shell server
-Loaded: loaded (/lib/systemd/system/ssh.service; enabled)
-Active: active (running) since Thu 2025-10-29 08:59:01 UTC; 2h 45min ago
+No.   Time      Source        Destination     Protocol Length Info
+1     0.000     192.168.1.5   8.8.8.8         DNS      74     Query google.com
+2     0.020     8.8.8.8       192.168.1.5     DNS      90     Response 142.250.190.78
+3     0.050     192.168.1.5   142.250.190.78  TCP      66     SYN
 ```
-
-**Start/Stop/Restart services:**
-```bash
-sudo systemctl start ssh
-sudo systemctl stop ssh
-sudo systemctl restart ssh
-```
-
-**Enable/Disable at boot:**
-```bash
-sudo systemctl enable ssh
-sudo systemctl disable ssh
-```
-
----
-
-### Step 12 - Kill and Manage Processes
-```bash
-ps aux | grep firefox
-kill -9 <PID>
-```
-**Explanation:**
-Finds processes by name and terminates them.
-
-**Example Output:**
-```bash
-daniel   6789  5.0  2.5 234567 54321 pts/0  S+   10:50   0:03 firefox
-```
-
----
-
-### Step 13 — Advanced Monitoring Tools
-
-**Disk usage per directory:**
-```bash
-du -sh /home/daniel/*
-```
-**Example output:**
-```bash
-4.0K    /home/daniel/mylab
-1.2G    /home/daniel/Videos
-500M    /home/daniel/Downloads
-```
-
-**Combined monitoring with dstat**
-```bash
-sudo apt install dstat -y
-dstat -c -d -n -m -y 2
-```  
-**Example output:**
-```bash
-----total-cpu-usage---- -dsk/total- ---net/total- ---memory- ---system--
-usr sys idl wai hiq siq| read  writ| recv  send| used  buff  cach| int   csw
-  5   1  94   0   0   0|  12k  24k|  0     0 |  500M 5120 2048k| 123   456
-
-```
-
 
 ---
 
 ## ✅ Summary
 You learned:
-- Uptime: uptime
-- Processes: ps, top, htop
-- Memory: vmstat
-- Disk: iostat, du
-- Network: netstat, ss, iftop
-- Logs: journalctl
-- Services: systemctl
-- Kill processes: kill
-- Automation: Bash loops and batch commands
+- IP Configuration: `ip a`, `hostname -I`  
+- Connectivity Testing: `ping`  
+- Network Devices: `nmcli`  
+- Routing & Gateway: `ip route`  
+- Open Ports & Services: `ss`  
+- DNS Configuration: `cat /etc/resolv.conf`  
+- DNS Testing: `nslookup`  
+- Network Restart: `systemctl restart NetworkManager`  
+- Network Discovery: `netdiscover`  
+- Traffic Monitoring: Wireshark  
 
 ---
 
@@ -281,21 +279,15 @@ You learned:
 
 
 Automate system monitoring every 5 minutes using cron or a script.
-1. Track CPU/memory usage of a process every 10 seconds.  
-2. Identify top 5 memory-hogging processes and safely terminate one. 
-3. Monitor all listening ports and report unusual activity.  
-4. Display contents with `cat`  
-5. Save disk usage report for /var/log to a file.  
+1. Find your IP address using two different commands.  
+2. Test internet connectivity using both domain and IP address.  
+3. Identify your default gateway using `ip route`.  
+4. Display all open ports and identify active services.  
+5. Check your DNS servers and verify them using `nslookup`.  
+6. Scan your local network and list at least 3 connected devices.  
+7. Restart your network service and confirm connectivity.  
+8. Monitor your network traffic and identify at least one protocol in use (e.g. TCP, DNS).  
+
 
 Practice these steps until you can do them **without looking at instructions**.
 
----
-
-### Step 14 - Automation Example
-```bash
-for i in {1..5}; do top -b -n1 >> top_log.txt; sleep 60; done
-```
-**Explanation:**
-Saves CPU/memory snapshot every minute.
-
----
