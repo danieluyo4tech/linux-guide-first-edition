@@ -53,7 +53,27 @@ Building dependency tree... Done
 ```
 ---
 
-### Step 2 — Create a New User
+### Step 2 — Remove Unused Packages
+```bash
+sudo apt autoremove
+```
+**Explanation:** 
+Meaning:
+- Removes packages that are no longer needed.
+
+### Why it is important:
+
+Unused software:
+- May contain vulnerabilities
+- Increases attack surface
+
+**Example Output:**
+```bash
+(No output if successful)
+```
+
+---
+### Step 3 — Create a New User
 ```bash
 sudo adduser testuser
 ```
@@ -81,7 +101,7 @@ Retype new password:
 
 ---
 
-### Step 3 — Check Active Users
+### Step 4 — Check Active Users
 ```bash
 who
 ```
@@ -95,7 +115,7 @@ user    pts/0   2026-04-10 10:00 (:0)
 
 ---
 
-### Step 4 — View Login History
+### Step 5 — View Login History
 ```bash
 last
 ```
@@ -107,30 +127,6 @@ user pts/0 192.168.1.5 Fri Apr 10 10:00 still logged in```
 ```
 ---
 
-### Step 5 — Restrict File Access
-```bash
-chmod 600 sensitive.txt
-```
-**Explanation:** 
-Meaning:
-
-Changes file permissions so that:
-Owner → read & write
-Group → no access
-Others → no access
-
-### Why it is important:
-
-Protects sensitive files like:
-Passwords
-Config files
-Private data
-**Example Output:**
-```bash
-(No output if successful)
-```
-
----
 
 ### Step 6 — Restrict File Access
 ```bash
